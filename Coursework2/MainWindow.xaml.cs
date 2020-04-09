@@ -24,14 +24,18 @@ namespace Coursework2
     {
 
         // ReservationSystem data = new ReservationSystem();
-        ReservationSystem data = new ReservationSystem();
-        
+        ReservationSystem data;
+        DataBase db;
 
         public MainWindow()
         {
             InitializeComponent();
+            data = new ReservationSystem();
             Griddata.ItemsSource = data.ListCustomer();
-            data.ShowPrice
+            //data.ShowPrice();
+
+           
+           // db = new DataBase();
         }
 
         //Customer Functions
