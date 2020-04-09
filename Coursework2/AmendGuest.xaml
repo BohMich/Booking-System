@@ -1,0 +1,22 @@
+﻿<Window x:Class="Coursework2.AmendGuest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AmendGuest" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="255*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="textbox_oldPassport" HorizontalAlignment="Left" Height="23" Margin="0,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,22,0,0" TextWrapping="Wrap" Text="Amend guest" VerticalAlignment="Top" Width="180"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,47,0,0" TextWrapping="Wrap" Text="Guest's old passport" VerticalAlignment="Top" Width="85" FontSize="9"/>
+        <TextBox x:Name="textbox_newName" HorizontalAlignment="Left" Height="23" Margin="0,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,97,0,0" TextWrapping="Wrap" Text="New Name" VerticalAlignment="Top" Width="85" FontSize="9"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,142,0,0" TextWrapping="Wrap" Text="New Passport No." VerticalAlignment="Top" Width="85" FontSize="9"/>
+        <TextBox x:Name="textbox_newPassportNo" HorizontalAlignment="Left" Height="23" Margin="0,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="0,187,0,0" TextWrapping="Wrap" Text="New Age" VerticalAlignment="Top" Width="85" FontSize="9"/>
+        <TextBox x:Name="textbox_newAge" HorizontalAlignment="Left" Height="23" Margin="0,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Button x:Name="button_amend" Content="Amend" Grid.Column="1" HorizontalAlignment="Left" Margin="11,238,0,0" VerticalAlignment="Top" Width="74" Click="button_amend_Click"/>
+
+    </Grid>
+</Window>
