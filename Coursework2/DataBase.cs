@@ -17,14 +17,14 @@ namespace Coursework2
 
         public DataBase()
         {
-            
-            InsertData(sqlite_conn);
-            ReadData(sqlite_conn);
+            sqlite_conn = CreateConnection();
+            //InsertData(sqlite_conn);
+            //ReadData(sqlite_conn);
         }
 
         public bool SetUpDB()
         {
-            sqlite_conn = CreateConnection();
+            
             if (!setupDone)
             {
                 try
@@ -33,13 +33,13 @@ namespace Coursework2
                     return true;
                 }
                 catch (Exception ex)
-                {
+                { 
                     return false;
                 }
             }
             else return false;
         }
-
+       
         private static SQLiteConnection CreateConnection()
         {
 
@@ -62,7 +62,7 @@ namespace Coursework2
         {
 
             SQLiteCommand sqlite_cmd;
-            string DeleteTable = "DROP TABLE Booking";
+
             string CreateCustomer = "CREATE TABLE Customer(" +
                                    "ReferenceNo INT PRIMARY KEY," +
                                    "Name TEXT NOT NULL," +
@@ -98,8 +98,6 @@ namespace Coursework2
                             "GuestId INT references Guest(PassportNo))";
 
             sqlite_cmd = conn.CreateCommand();
-            //sqlite_cmd.CommandText = DeleteTable;
-            //sqlite_cmd.ExecuteNonQuery();
 
             sqlite_cmd.CommandText = CreateCustomer;
             sqlite_cmd.ExecuteNonQuery();
@@ -120,6 +118,53 @@ namespace Coursework2
             sqlite_cmd.ExecuteNonQuery();
 
         }
+
+        public bool DeleteTable()
+        {
+            SQLiteCommand sqlite_cmd;
+
+            string DeleteCustomer = "DROP TABLE Customer";
+
+            string DeleteGuest = "DROP TABLE Guest";
+
+            string DeleteBreakfast = "DROP TABLE Breakfast";
+
+            string DeleteExtraCarHire = "DROP TABLE ExtraCarHire";
+
+            string DeleteEveningMeal = "DROP TABLE EveningMeal";
+
+            string DeleteBooking = "DROP TABLE Booking";
+
+            try
+            {
+                sqlite_cmd = sqlite_conn.CreateCommand();
+
+                sqlite_cmd.CommandText = DeleteCustomer;
+                sqlite_cmd.ExecuteNonQuery();
+
+                sqlite_cmd.CommandText = DeleteGuest;
+                sqlite_cmd.ExecuteNonQuery();
+
+                sqlite_cmd.CommandText = DeleteBreakfast;
+                sqlite_cmd.ExecuteNonQuery();
+
+                sqlite_cmd.CommandText = DeleteExtraCarHire;
+                sqlite_cmd.ExecuteNonQuery();
+
+                sqlite_cmd.CommandText = DeleteEveningMeal;
+                sqlite_cmd.ExecuteNonQuery();
+
+                sqlite_cmd.CommandText = DeleteBooking;
+                sqlite_cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         static void InsertData(SQLiteConnection conn)
         {
             SQLiteCommand sqlite_cmd;

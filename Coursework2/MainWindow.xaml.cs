@@ -15,12 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Coursework2
 {
  
     public partial class MainWindow : Window
     {
-
         // ReservationSystem data = new ReservationSystem();
         ReservationSystem data;
         DataBase db;
@@ -33,7 +33,7 @@ namespace Coursework2
             //data.ShowPrice();
 
            
-           // db = new DataBase();
+            db = new DataBase();
         }
 
         //Customer Functions
@@ -236,7 +236,32 @@ namespace Coursework2
 
         }
 
-        
+        private void New_db_Click(object sender, RoutedEventArgs e)
+        {
+            //Creates the new database.
+            bool x = db.SetUpDB();
+            if(!x)
+            {
+                MessageBox.Show("Can't set up the database. Delete old database first");
+            }
+            else
+            {
+                MessageBox.Show("Booking Database successfully created");
+            }
+        }
+
+        private void Delete_db_Click(object sender, RoutedEventArgs e)
+        { 
+            bool x = db.DeleteTable();
+            if (!x)
+            {
+                MessageBox.Show("Error Cant delete database ");
+            }
+            else
+            {
+                MessageBox.Show("Booking Database successfully deleted");
+            }
+        }
     }
 }
 
