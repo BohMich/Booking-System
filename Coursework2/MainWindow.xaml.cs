@@ -15,23 +15,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Coursework2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+ 
     public partial class MainWindow : Window
     {
-
         // ReservationSystem data = new ReservationSystem();
-        ReservationSystem data = new ReservationSystem();
-        
+        ReservationSystem data;
+        DataBase db;
 
         public MainWindow()
         {
             InitializeComponent();
+            data = new ReservationSystem();
             Griddata.ItemsSource = data.ListCustomer();
-            data.ShowPrice
+            //data.ShowPrice();
+
+           
+            db = new DataBase();
         }
 
         //Customer Functions
@@ -234,7 +236,64 @@ namespace Coursework2
 
         }
 
-        
+        /// <summary>
+        /// Databse functionality. 
+        /// </summary>
+   
+        private void New_db_Click(object sender, RoutedEventArgs e)
+        {
+            //Creates the new database.
+            bool x = db.SetUpDB();
+            if(!x)
+            {
+                MessageBox.Show("System Already connected to a database");
+            }
+            else
+            {
+                MessageBox.Show("Booking Database successfully created");
+            }
+
+        }
+
+        private void Delete_db_Click(object sender, RoutedEventArgs e)
+        { 
+            bool x = db.DeleteTable();
+            if (!x)
+            {
+                MessageBox.Show("Error Cant delete database ");
+            }
+            else
+            {
+                MessageBox.Show("Booking Database successfully deleted");
+            }
+
+            Griddata.Items.Refresh();
+        }
+
+        private void Add_Local_db_Click(object sender, RoutedEventArgs e)
+        {
+
+            //To instert local data into the database, simply pass through the list of customers.
+            db.InsertLocalData(data.ListCustomer());
+            MessageBox.Show("Information added,  duplicates ommited");
+        }
+
+        private void Load_db_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Customer temp = db.LoadData();
+                data.AddCustomer(temp.Name, temp.Address);
+                MessageBox.Show("Added the data to the database");
+                Griddata.Items.Refresh();
+            }
+            catch
+            {
+                MessageBox.Show("Error: Can't Load Customer from external database");
+                Griddata.Items.Refresh();
+            }
+
+        }
     }
 }
 
