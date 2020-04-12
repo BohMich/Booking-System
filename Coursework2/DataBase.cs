@@ -18,13 +18,11 @@ namespace Coursework2
         public DataBase()
         {
             sqlite_conn = CreateConnection();
-            //InsertData(sqlite_conn);
-            //ReadData(sqlite_conn);
         }
 
         public bool SetUpDB()
         {
-            
+
             if (!setupDone)
             {
                 try
@@ -33,13 +31,79 @@ namespace Coursework2
                     return true;
                 }
                 catch (Exception ex)
-                { 
+                {
                     return false;
                 }
             }
             else return false;
         }
-       
+
+        public void InsertLocalData(List<Customer> customers)
+        { 
+            SQLiteCommand sqlite_cmd;
+            string command;
+            foreach (Customer cust in customers)
+            {
+                //Add the customer, then add all bookings registered with that customer.
+                sqlite_cmd = sqlite_conn.CreateCommand();
+                command = "INSERT INTO Customer(Name, Address) " +
+                            "SELECT '" + cust.Name + "' , '" + cust.Address + "' " +
+                              "WHERE NOT EXISTS(SELECT 1 FROM Customer WHERE Name = '" + cust.Name + "' AND Address = '" + cust.Address + "' ); ";  //check if customer already exists
+
+                sqlite_cmd.CommandText = command;
+                sqlite_cmd.ExecuteNonQuery();
+
+                //access and insert bookings into the database. 
+                foreach (Booking book in cust.GetBookings())
+                {
+                    //add guests that are in that booking. 
+                    foreach (Guest guest in book.ListGuests())
+                    {
+                        command = "INSERT INTO Guest(Age, Name, BookingNo, PassportNo) " +
+                             "SELECT " + guest.Age + " , '" + guest.Name + "' , " + book.ReferenceNo + " , " + guest.PassportNo + " " +
+                               "WHERE NOT EXISTS(SELECT 1 FROM Guest WHERE PassportNo = " + guest.PassportNo + " ); ";  //check if guest already exists
+
+                        sqlite_cmd.CommandText = command;
+                        sqlite_cmd.ExecuteNonQuery();
+                    }
+
+                    //add booking. booking extras have a 1.1 relationship.
+                    command = "INSERT INTO Booking(CustomerRefNo, ArrivalDate, DepartureDate) " +
+                             "VALUES ('" + cust.Name.ToString() + "' , '" + book.ArrivalDate.ToString() + "' , '" + book.DapartureDate.ToString() + "' ) ";
+                               
+                    sqlite_cmd.CommandText = command;
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Customer LoadData()
+        {
+            //temp single row 
+            string name = "poop";
+            string address = "poop";
+
+            List<Customer> customers;
+
+            SQLiteDataReader sqlite_datareader;
+            SQLiteCommand sqlite_cmd;
+
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM Customer";
+
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+            while (sqlite_datareader.Read())
+            {
+                name = sqlite_datareader.GetString(0);
+                address = sqlite_datareader.GetString(1);
+            }
+            
+
+            Customer temp = new Customer(name,address);
+
+            return temp;
+        }
+
         private static SQLiteConnection CreateConnection()
         {
 
@@ -63,39 +127,21 @@ namespace Coursework2
 
             SQLiteCommand sqlite_cmd;
 
-            string CreateCustomer = "CREATE TABLE Customer(" +
-                                   "ReferenceNo INT PRIMARY KEY," +
-                                   "Name TEXT NOT NULL," +
+            string CreateCustomer = "CREATE TABLE Customer("  +
+                                   "Name TEXT PRIMARY KEY," +
                                    "Address TEXT NOT NULL)";
 
-            string CreateGuest = "CREATE TABLE Guest ( " +
+            string CreateGuest = "CREATE TABLE Guest( " +
                                  "Age INT, " +
                                  "Name TEXT, " +
-                                 "PassportNo INT PRIMARY KEY)";
+                                 "BookingNo INTEGER references Booking(BookingNo), " +
+                                 "PassportNo INTEGER PRIMARY KEY)";
 
-            string CreateBreakfast = "CREATE TABLE Breakfast ( " +
-                                    "BreakfastId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                    "DietaryRequirements TEXT)";
-
-            string CreateExtraCarHire = "CREATE TABLE ExtraCarHire (" +
-                                        "CarId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                        "StartDate TEXT, " +
-                                        "EndDate TEXT)";
-
-            string CreateEveningMeal = "CREATE TABLE EveningMeal (" +
-                                  "MealId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                  "DietaryRequirements TEXT)";
-
-
-            string CreateBooking = "CREATE TABLE Booking (" +
+            string CreateBooking = "CREATE TABLE Booking(" +
                             "BookingNo INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "CustomerRefNo INT references Customer(ReferenceNo), " +
+                            "CustomerRefNo TEXT references Customer(Name), " +
                             "ArrivalDate TEXT NOT NULL, " +
-                            "DepartureDate TEXT NOT NULL, " +
-                            "BreakfastId INTEGER references Breakfast(BreakfastId), " +
-                            "CarHireId INTEGER references ExtraCarHire(CarId), " +
-                            "EveningMealId INTEGER references EveningMeal(MealId), " +
-                            "GuestId INT references Guest(PassportNo))";
+                            "DepartureDate TEXT NOT NULL)";
 
             sqlite_cmd = conn.CreateCommand();
 
@@ -103,15 +149,6 @@ namespace Coursework2
             sqlite_cmd.ExecuteNonQuery();
 
             sqlite_cmd.CommandText = CreateGuest;
-            sqlite_cmd.ExecuteNonQuery();
-
-            sqlite_cmd.CommandText = CreateBreakfast;
-            sqlite_cmd.ExecuteNonQuery();
-
-            sqlite_cmd.CommandText = CreateExtraCarHire;
-            sqlite_cmd.ExecuteNonQuery();
-
-            sqlite_cmd.CommandText = CreateEveningMeal;
             sqlite_cmd.ExecuteNonQuery();
 
             sqlite_cmd.CommandText = CreateBooking;
@@ -124,14 +161,8 @@ namespace Coursework2
             SQLiteCommand sqlite_cmd;
 
             string DeleteCustomer = "DROP TABLE Customer";
-
+            
             string DeleteGuest = "DROP TABLE Guest";
-
-            string DeleteBreakfast = "DROP TABLE Breakfast";
-
-            string DeleteExtraCarHire = "DROP TABLE ExtraCarHire";
-
-            string DeleteEveningMeal = "DROP TABLE EveningMeal";
 
             string DeleteBooking = "DROP TABLE Booking";
 
@@ -139,26 +170,17 @@ namespace Coursework2
             {
                 sqlite_cmd = sqlite_conn.CreateCommand();
 
+                sqlite_cmd.CommandText = DeleteBooking;
+                sqlite_cmd.ExecuteNonQuery();
+
                 sqlite_cmd.CommandText = DeleteCustomer;
                 sqlite_cmd.ExecuteNonQuery();
 
                 sqlite_cmd.CommandText = DeleteGuest;
                 sqlite_cmd.ExecuteNonQuery();
 
-                sqlite_cmd.CommandText = DeleteBreakfast;
-                sqlite_cmd.ExecuteNonQuery();
-
-                sqlite_cmd.CommandText = DeleteExtraCarHire;
-                sqlite_cmd.ExecuteNonQuery();
-
-                sqlite_cmd.CommandText = DeleteEveningMeal;
-                sqlite_cmd.ExecuteNonQuery();
-
-                sqlite_cmd.CommandText = DeleteBooking;
-                sqlite_cmd.ExecuteNonQuery();
-
-                return true;
-            }
+            return true;
+        }
             catch
             {
                 return false;

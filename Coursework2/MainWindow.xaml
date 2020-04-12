@@ -64,6 +64,7 @@
         <Button x:Name="button_new_db" Content="Create New Database" HorizontalAlignment="Left" Margin="1184,18.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="231" Height="41" Click="New_db_Click"/>
         <Button x:Name="button_delete_db" Content="Delete Database " HorizontalAlignment="Left" Margin="1184,74.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="231" Height="41" Click="Delete_db_Click"/>
         <Button x:Name="button_addLocal_db" Content="Add Local Bookings" HorizontalAlignment="Left" Margin="1184,132.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="231" Height="41" Click="Add_Local_db_Click"/>
+        <Button x:Name="button_loadData_db" Content="Load Data from Database" HorizontalAlignment="Left" Margin="1184,184.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="231" Height="41" Click="Load_db_Click"/>
 
     </Grid>
 </Window>

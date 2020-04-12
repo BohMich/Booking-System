@@ -18,9 +18,9 @@ namespace Coursework2
         private List<Guest> guests = new List<Guest>(); //each booking has a list of guest.
 
         //Extras for booking.
-        ExtraBreakfast breakfast = null;
-        ExtraEveningMeal meal = null;
-        ExtraCarHire carhire = null;
+        private ExtraBreakfast breakfast = null;
+        private ExtraEveningMeal meal = null;
+        private ExtraCarHire carhire = null;
 
        //Constructor, new booking must have arrival and departure dates.
         public Booking(DateTime arrive, DateTime depart)
@@ -73,9 +73,8 @@ namespace Coursework2
             get { return departureDate; }
 
         }
+       
 
-
- 
         //  Methods
         public List<Guest> ListGuests()
         {
