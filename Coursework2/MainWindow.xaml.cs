@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,17 +24,25 @@ namespace Coursework2
     {
         // ReservationSystem data = new ReservationSystem();
         ReservationSystem data;
-        DataBase db;
+        IDataBase _db;
 
         public MainWindow()
         {
+            //Autofac initialization
+            var container = ContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope())
+            {
+                _db = scope.Resolve<IDataBase>();
+            }
+
             InitializeComponent();
+
             data = new ReservationSystem();
             Griddata.ItemsSource = data.ListCustomer();
-            //data.ShowPrice();
 
-           
-            db = new DataBase();
+            //_db = new DataBase();
+            
         }
 
         //Customer Functions
@@ -243,7 +252,7 @@ namespace Coursework2
         private void New_db_Click(object sender, RoutedEventArgs e)
         {
             //Creates the new database.
-            bool x = db.SetUpDB();
+            bool x = _db.SetUp();
             if(!x)
             {
                 MessageBox.Show("System Already connected to a database");
@@ -257,7 +266,7 @@ namespace Coursework2
 
         private void Delete_db_Click(object sender, RoutedEventArgs e)
         { 
-            bool x = db.DeleteTable();
+            bool x = _db.DeleteTable();
             if (!x)
             {
                 MessageBox.Show("Error Cant delete database ");
@@ -274,7 +283,7 @@ namespace Coursework2
         {
 
             //To instert local data into the database, simply pass through the list of customers.
-            db.InsertLocalData(data.ListCustomer());
+            _db.InsertLocalData(data.ListCustomer());
             MessageBox.Show("Information added,  duplicates ommited");
         }
 
@@ -282,7 +291,7 @@ namespace Coursework2
         {
             try
             {
-                Customer temp = db.LoadData();
+                Customer temp = _db.LoadData();
                 data.AddCustomer(temp.Name, temp.Address);
                 MessageBox.Show("Added the data to the database");
                 Griddata.Items.Refresh();

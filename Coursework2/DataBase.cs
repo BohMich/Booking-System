@@ -9,18 +9,18 @@ using System.Data.SQLite;
 
 namespace Coursework2
 {
-    public class DataBase
+    public class DataBase : IDataBase
     {
         //establish sql connection
         private SQLiteConnection sqlite_conn;
-        private bool setupDone;
+        private bool setupDone; 
 
         public DataBase()
         {
             sqlite_conn = CreateConnection();
         }
 
-        public bool SetUpDB()
+        public bool SetUp()
         {
 
             if (!setupDone)
@@ -39,7 +39,7 @@ namespace Coursework2
         }
 
         public void InsertLocalData(List<Customer> customers)
-        { 
+        {
             SQLiteCommand sqlite_cmd;
             string command;
             foreach (Customer cust in customers)
@@ -70,7 +70,7 @@ namespace Coursework2
                     //add booking. booking extras have a 1.1 relationship.
                     command = "INSERT INTO Booking(CustomerRefNo, ArrivalDate, DepartureDate) " +
                              "VALUES ('" + cust.Name.ToString() + "' , '" + book.ArrivalDate.ToString() + "' , '" + book.DapartureDate.ToString() + "' ) ";
-                               
+
                     sqlite_cmd.CommandText = command;
                     sqlite_cmd.ExecuteNonQuery();
                 }
@@ -97,9 +97,9 @@ namespace Coursework2
                 name = sqlite_datareader.GetString(0);
                 address = sqlite_datareader.GetString(1);
             }
-            
 
-            Customer temp = new Customer(name,address);
+
+            Customer temp = new Customer(name, address);
 
             return temp;
         }
@@ -109,7 +109,7 @@ namespace Coursework2
 
             SQLiteConnection sqlite_conn;
             // Create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=BookingDataBase.db; New = True; Compress = True;");
+            sqlite_conn = new SQLiteConnection("Data Source=BookingDataBase._db; New = True; Compress = True;");
             // Open the connection:
             try
             {
@@ -127,7 +127,7 @@ namespace Coursework2
 
             SQLiteCommand sqlite_cmd;
 
-            string CreateCustomer = "CREATE TABLE Customer("  +
+            string CreateCustomer = "CREATE TABLE Customer(" +
                                    "Name TEXT PRIMARY KEY," +
                                    "Address TEXT NOT NULL)";
 
@@ -161,7 +161,7 @@ namespace Coursework2
             SQLiteCommand sqlite_cmd;
 
             string DeleteCustomer = "DROP TABLE Customer";
-            
+
             string DeleteGuest = "DROP TABLE Guest";
 
             string DeleteBooking = "DROP TABLE Booking";
@@ -179,8 +179,8 @@ namespace Coursework2
                 sqlite_cmd.CommandText = DeleteGuest;
                 sqlite_cmd.ExecuteNonQuery();
 
-            return true;
-        }
+                return true;
+            }
             catch
             {
                 return false;
