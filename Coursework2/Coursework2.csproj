@@ -95,19 +95,26 @@
     <Compile Include="AmendGuest.xaml.cs">
       <DependentUpon>AmendGuest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContainerConfig.cs" />
-    <Compile Include="DataBase.cs" />
-    <Compile Include="ExtraBreakfast.cs" />
-    <Compile Include="ExtraCarHire.cs" />
-    <Compile Include="ExtraEveningMeal.cs" />
+    <Compile Include="Data Objects\BookingDate.cs" />
+    <Compile Include="Architecture\BookingHandler.cs" />
+    <Compile Include="Architecture\ContainerConfig.cs" />
+    <Compile Include="Architecture\CustomerHandler.cs" />
+    <Compile Include="Architecture\DataBase.cs" />
+    <Compile Include="Data Objects\ExtraBreakfast.cs" />
+    <Compile Include="Data Objects\ExtraCarHire.cs" />
+    <Compile Include="Data Objects\ExtraEveningMeal.cs" />
     <Compile Include="extras.xaml.cs">
       <DependentUpon>extras.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IDataBase.cs" />
+    <Compile Include="Architecture\Interfaces\IBookingHandler.cs" />
+    <Compile Include="Architecture\Interfaces\ICustomerHandler.cs" />
+    <Compile Include="Architecture\Interfaces\IDataBase.cs" />
+    <Compile Include="Architecture\Interfaces\IDataHandler.cs" />
     <Compile Include="invoice.xaml.cs">
       <DependentUpon>invoice.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReservationSystem.cs" />
+    <Compile Include="Architecture\Interfaces\IReservationSystem.cs" />
+    <Compile Include="Architecture\ReservationSystem.cs" />
     <Page Include="AmendGuest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,9 +135,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Booking.cs" />
-    <Compile Include="Customer.cs" />
-    <Compile Include="Guest.cs" />
+    <Compile Include="Data Objects\Booking.cs" />
+    <Compile Include="Data Objects\Customer.cs" />
+    <Compile Include="Data Objects\Guest.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

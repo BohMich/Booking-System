@@ -9,7 +9,8 @@ namespace Coursework2
 {
     public class Guest
      {
-        //Constuctor
+        private Booking booking;
+        
         public Guest(string newName, string newPassport, int newAge)
         {
             //Guest must be inicialized with all fields

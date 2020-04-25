@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using Coursework2.Architecture.Interfaces;
 
-namespace Coursework2
+namespace Coursework2.Architecture
 {
     public class DataBase : IDataBase
     {
@@ -19,7 +20,6 @@ namespace Coursework2
         {
             sqlite_conn = CreateConnection();
         }
-
         public bool SetUp()
         {
 
@@ -40,7 +40,7 @@ namespace Coursework2
 
         public void InsertLocalData(List<Customer> customers)
         {
-            SQLiteCommand sqlite_cmd;
+           /* SQLiteCommand sqlite_cmd;
             string command;
             foreach (Customer cust in customers)
             {
@@ -74,34 +74,35 @@ namespace Coursework2
                     sqlite_cmd.CommandText = command;
                     sqlite_cmd.ExecuteNonQuery();
                 }
-            }
+            }*/
         }
 
         public Customer LoadData()
         {
-            //temp single row 
-            string name = "poop";
-            string address = "poop";
+            /*  //temp single row 
+              string name = "poop";
+              string address = "poop";
 
-            List<Customer> customers;
+              List<Customer> customers;
 
-            SQLiteDataReader sqlite_datareader;
-            SQLiteCommand sqlite_cmd;
+              SQLiteDataReader sqlite_datareader;
+              SQLiteCommand sqlite_cmd;
 
-            sqlite_cmd = sqlite_conn.CreateCommand();
-            sqlite_cmd.CommandText = "SELECT * FROM Customer";
+              sqlite_cmd = sqlite_conn.CreateCommand();
+              sqlite_cmd.CommandText = "SELECT * FROM Customer";
 
-            sqlite_datareader = sqlite_cmd.ExecuteReader();
-            while (sqlite_datareader.Read())
-            {
-                name = sqlite_datareader.GetString(0);
-                address = sqlite_datareader.GetString(1);
-            }
+              sqlite_datareader = sqlite_cmd.ExecuteReader();
+              while (sqlite_datareader.Read())
+              {
+                  name = sqlite_datareader.GetString(0);
+                  address = sqlite_datareader.GetString(1);
+              }
 
 
-            Customer temp = new Customer(name, address);
+              Customer temp = new Customer(name, address);
 
-            return temp;
+              return temp;*/
+            return null;
         }
 
         private static SQLiteConnection CreateConnection()

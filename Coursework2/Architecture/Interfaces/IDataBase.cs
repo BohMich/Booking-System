@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Coursework2
+namespace Coursework2.Architecture.Interfaces
 {
     public interface IDataBase
     {
