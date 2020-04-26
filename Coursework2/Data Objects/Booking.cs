@@ -9,13 +9,12 @@ namespace Coursework2
 {
    public class Booking
     {
-        //Use DateTime for arrival/departure dates.
+        //Customer who made the booking. 
+        private Customer customer;
+        private int clientReferenceNumber;  //Reference used only in the booking application, is not passed to the SQL
+
         private DateTime arrivalDate;
         private DateTime departureDate;
-        private int referenceNo = 1;
-        private static int bookingRefCounter = 1;  //Auto incrementing reference, used in the constructor.
-
-        private List<Guest> guests = new List<Guest>(); //each booking has a list of guest.
 
         //Extras for booking.
         private ExtraBreakfast breakfast = null;
@@ -23,31 +22,42 @@ namespace Coursework2
         private ExtraCarHire carhire = null;
 
        //Constructor, new booking must have arrival and departure dates.
-        public Booking(DateTime arrive, DateTime depart)
-        {   
-            //check if dates are valid
+        public Booking(Customer customer, DateTime arrive, DateTime depart)
+        {
+            //check dates
             if (arrive != null)
+            {
                 arrivalDate = arrive;
+            }
             else
+            {
                 throw new ArgumentException("Arrival date empty");
+            }
 
-            //Basic check to make sure guest stay for longer than one night
+            //Check if arrival and departure are not the same date
             if (depart != null && depart != arrive)     
             {
                 departureDate = depart;
-                referenceNo = bookingRefCounter;
-                bookingRefCounter++;
             }
             else
-                throw new ArgumentException("Invalid Departure date");
+            {
+                throw new ArgumentException("Departure date cannot be the same as arrival date.");
+            }
+
+            this.customer = customer;
+            clientReferenceNumber += 1;
         }
 
-        //  Get/Set accessors
-        public int ReferenceNo //read only
+        public int ReferenceNumber
         {
-            get { return referenceNo;  } 
-            
+            get { return clientReferenceNumber; }
         }
+
+        public Customer GetCustomer
+        {
+            get { return customer; }
+        }
+        
         public DateTime ArrivalDate
         {
             set
@@ -55,7 +65,7 @@ namespace Coursework2
                 if (value != null)
                     arrivalDate = value;
                 else
-                    throw new ArgumentException("Arrival date empty");
+                    throw new ArgumentException("Arrival date empty.");
             }
             get { return arrivalDate; }         
          }
@@ -66,23 +76,12 @@ namespace Coursework2
                 if (value != null)
                     departureDate = value;
                 else
-                    throw new ArgumentException("Departure date empty");
+                    throw new ArgumentException("Departure date empty.");
             }
-
-
             get { return departureDate; }
-
-        }
-       
-
-        //  Methods
-        public List<Guest> ListGuests()
-        {
-            //returns booking's list of guests
-            return guests;
         }
         
-        public void AddGuest(string name, string passport, int age)
+        /*public void AddGuest(string name, string passport, int age)
         {
             //Adds guest to list of guests
             //Check if guest count is acceptable
@@ -110,8 +109,8 @@ namespace Coursework2
             }
             else
                 MessageBox.Show("Maximum number of guests reached");
-        }
-        public void DeleteGuest(string passport)
+        }*/
+       /* public void DeleteGuest(string passport)
         { 
             //deletes a guests from the guest list
             //iterate thorugh guests
@@ -125,8 +124,8 @@ namespace Coursework2
                 }         
             }
             MessageBox.Show("Customer not found");
-        }     
-        public void AmendGuest(string oldpassport, string nName, string nPassport, int nAge)
+        }   */  
+       /* public void AmendGuest(string oldpassport, string nName, string nPassport, int nAge)
         {
             //Changes the values of the guest in the list.
             foreach(Guest guest in guests)
@@ -151,8 +150,8 @@ namespace Coursework2
                 
             }
             MessageBox.Show(" Cannot amend, guest not found");
-        }
-        public Guest ShowGuest(string passport)
+        }*/
+     /*   public Guest ShowGuest(string passport)
         {
             //returns a specific guest, primary key = passport
             foreach(Guest guest in guests)
@@ -172,7 +171,7 @@ namespace Coursework2
                     return true;
             }
             return false;
-        }
+        }*/
 
         public void AddBreakfast(string dietReq)
         {
@@ -183,7 +182,7 @@ namespace Coursework2
                 //Case : amend the breakfast.
                 if (MessageBox.Show("Booking already has breakfast. Amend?", " ", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    breakfast.DiatryReq = dietReq;
+                    //breakfast.DiatryReq = dietReq;
                     return;
                 }
                 //Case : delete breakfast
@@ -207,7 +206,7 @@ namespace Coursework2
                 //Case : amend the meal.
                 if (MessageBox.Show("Booking already has breakfast. Amend?", " ", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    meal.DiatryReq = dietReq;
+                    meal.DietaryRequirements = dietReq;
                     return;
                 }
                 //Give option to delete the meal
@@ -225,7 +224,7 @@ namespace Coursework2
 
         public void AddCarHire(DateTime start, DateTime end, string name)
         {
-            //check if dates provided are legitimate. 
+            /*//check if dates provided are legitimate. 
             if (start >= arrivalDate && end <= departureDate)
             {
                 //check if name provided is in the guest list.
@@ -258,7 +257,7 @@ namespace Coursework2
             }
             else MessageBox.Show("Please provide hire dates within the duration of stay.");
            
-            
+            */
             
         }
 
@@ -274,13 +273,13 @@ namespace Coursework2
 
           
             //Calculate cost for guests PER NIGHT
-            foreach(Guest guest in guests)
+            /*foreach(Guest guest in guests)
             {
                 //check age, if under 18 get discount.
                 if (guest.Age < 18)
                     guestsPerNight += 30;
                 else guestsPerNight += 50;
-            }
+            }*/
 
             //Assuming Extras will be shown not per day but total.
             if (breakfast != null)

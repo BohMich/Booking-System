@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,17 +11,17 @@ namespace Coursework2
     {
         //Class used by booking class. 
         //used to store information aobut dinner options.
-        string diatryReq;
+        string dietaryRequirements;
 
-        public string DiatryReq
+        public string DietaryRequirements
         {
-            get { return diatryReq; }
-            set { diatryReq = value; }
+            get { return dietaryRequirements; }
+            set { dietaryRequirements = value; }
         }
 
-        public ExtraEveningMeal(string dReq)
+        public ExtraEveningMeal(string requirements)
         { 
-            diatryReq = dReq;
+            dietaryRequirements = requirements;
         }
     }
 }

@@ -11,6 +11,8 @@
             <RowDefinition Height="63*"/>
             <RowDefinition Height="610*"/>
         </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="823,63,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="342"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="379,63,0,0" VerticalAlignment="Top" Width="417" Grid.RowSpan="2"/>
         <DataGrid x:Name="Griddata" HorizontalAlignment="Left" Margin="40,320,0,0" VerticalAlignment="Top" Height="240" Width="280" SelectedCellsChanged="Griddata_SelectedCellsChanged" Grid.Row="1" IsReadOnly="True"/>
         <TextBox x:Name="textBox_custfNameset" HorizontalAlignment="Left" Height="25" Margin="40,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Grid.Row="1" />
         <TextBlock x:Name="textBlock_fNameset" HorizontalAlignment="Left" Margin="40,25,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Height="15" Grid.Row="1" Width="32"/>
@@ -21,13 +23,13 @@
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="125,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Height="25" FontSize="16"><Run Text="Customer"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="400,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Height="25" FontSize="16"><Run Text="Booking"/><LineBreak/><Run/></TextBlock>
         <TextBlock x:Name="textBlock_fNameset_Copy" HorizontalAlignment="Left" Margin="400,20,0,0" TextWrapping="Wrap" Text="Customer Name" VerticalAlignment="Top" Height="15" Width="140" Grid.Row="1"/>
-        <TextBox x:Name="textBox_booking_CustName" HorizontalAlignment="Left" Height="25" Margin="400,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Grid.Row="1" Text="Michal BOhdaniec&#x9;"/>
+        <TextBox x:Name="textBox_booking_CustName" HorizontalAlignment="Left" Height="25" Margin="400,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Grid.Row="1" Text="Michal Bohdaniec"/>
         <TextBlock x:Name="textBlock_1address_Copy2" HorizontalAlignment="Left" Margin="400,70,0,0" TextWrapping="Wrap" Text="Address " VerticalAlignment="Top" Height="15" Grid.Row="1" Width="46"/>
-        <TextBox x:Name="textBox_booking_CustAddress1" HorizontalAlignment="Left" Height="25" Margin="400,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Grid.Row="1" Text="22 WAterfront"/>
+        <TextBox x:Name="textBox_booking_CustAddress1" HorizontalAlignment="Left" Height="25" Margin="400,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" Grid.Row="1" Text="55/12 Waterfront avenue"/>
         <TextBlock x:Name="textBlock_2address_Copy1" HorizontalAlignment="Left" Margin="400,130,0,0" TextWrapping="Wrap" Text="Arrival Date" VerticalAlignment="Top" Height="15" Grid.Row="1" Width="62"/>
-        <TextBox x:Name="textBox_Booking_Arrival" HorizontalAlignment="Left" Height="25" Margin="400,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Grid.Row="1" Text="11/11/1111"/>
+        <TextBox x:Name="textBox_Booking_Arrival" HorizontalAlignment="Left" Height="25" Margin="400,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Grid.Row="1" Text="11/11/2020"/>
         <TextBlock x:Name="textBlock_2address_Copy2" HorizontalAlignment="Left" Margin="400,170,0,0" TextWrapping="Wrap" Text="Departure Date" VerticalAlignment="Top" Height="15" Grid.Row="1" Width="81"/>
-        <TextBox x:Name="textBox_Booking_Departure" HorizontalAlignment="Left" Height="25" Margin="400,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Grid.Row="1" Text="11/11/1111"/>
+        <TextBox x:Name="textBox_Booking_Departure" HorizontalAlignment="Left" Height="25" Margin="400,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Grid.Row="1" Text="11/11/2021"/>
         <TextBox x:Name="textBox_booking_Reference" HorizontalAlignment="Left" Height="25" Margin="600,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Grid.Row="1"/>
         <TextBlock x:Name="textBlock_fNameset_Copy1" HorizontalAlignment="Left" Margin="600,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="17" Width="182" Grid.Row="1"><Run Text="Booking Ref."/><Run Language="en-gb" Text=" (leave blank if new)"/><LineBreak/><Run Language="en-gb"/><LineBreak/><Run/></TextBlock>
         <Button x:Name="button_BookingLoad" Content="Load" HorizontalAlignment="Left" Margin="707,45,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="button_BookingLoad_Click" Grid.Row="1"/>
@@ -42,23 +44,21 @@
         <TextBox x:Name="textBox_custRef" HorizontalAlignment="Left" Height="25" Margin="40,145,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Grid.Row="1" />
         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="38,125,0,0" TextWrapping="Wrap" Text="Reference (leave blank if new)" VerticalAlignment="Top" Grid.Row="1" Width="178" Height="16"/>
         <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="855,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Height="20" FontSize="16" Text="Guests"/>
-        <TextBox x:Name="textBox_guestName" HorizontalAlignment="Left" Height="25" Margin="885,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.Row="1" Text="Mical&#x9;"/>
+        <TextBox x:Name="textBox_guestName" HorizontalAlignment="Left" Height="25" Margin="885,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.Row="1" Text="Michael Bohdaniec"/>
         <TextBlock x:Name="textBlock_guestName" HorizontalAlignment="Left" Margin="885,15,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Height="15" Grid.Row="1" Width="32"/>
-        <TextBox x:Name="textBox_guestPassport" HorizontalAlignment="Left" Height="25" Margin="885,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.Row="1" Text="Biohd"/>
+        <TextBox x:Name="textBox_guestPassport" HorizontalAlignment="Left" Height="25" Margin="885,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" Grid.Row="1" Text="55112345"/>
         <TextBlock x:Name="textBlock_guestPassport" HorizontalAlignment="Left" Margin="885,65,0,0" TextWrapping="Wrap" Text="Passport Number" VerticalAlignment="Top" Height="15" Grid.Row="1" Width="92"/>
         <TextBlock x:Name="textBlock_1address_Copy" HorizontalAlignment="Left" Margin="885,123,0,0" TextWrapping="Wrap" Text="Age" VerticalAlignment="Top" Height="19" Grid.Row="1" Width="21"/>
         <TextBox x:Name="textBox_guestAge" HorizontalAlignment="Left" Height="25" Margin="915,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Grid.Row="1" Text="22"/>
         <Button x:Name="button_addGuest" Content="Add" HorizontalAlignment="Left" Margin="885,220,0,0" VerticalAlignment="Top" Width="80" Click="button_addGuest_Click" Grid.Row="1" Height="22" />
         <Button x:Name="button_delGuest" Content="Delete" HorizontalAlignment="Left" Margin="1070,220,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="button_delGuest_Click" Height="22"/>
-        <TextBlock x:Name="textBlock_1address_Copy1" HorizontalAlignment="Left" Margin="884,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Grid.Row="1" Width="93"><Run Text="Booking Refrence"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="textBlock_1address_Copy1" HorizontalAlignment="Left" Margin="877,180.8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Grid.Row="1" Width="100"><Run Text="Booking Refrence"/><LineBreak/><Run/></TextBlock>
         <TextBox x:Name="textBox_guestRef" HorizontalAlignment="Left" Height="25" Margin="1005,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Grid.Row="1" Text="1"/>
         <DataGrid x:Name="dataGrid_Guests" HorizontalAlignment="Left" Margin="855,315,0,0" Grid.Row="1" VerticalAlignment="Top" Height="250" Width="290" IsReadOnly="True" />
         <Button x:Name="button_extras" Content="Add Extras" HorizontalAlignment="Left" Margin="707,85,0,0" VerticalAlignment="Top" Width="75" Click="button_extras_Click" Grid.Row="1" Height="25"/>
         <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="970,285,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Height="25" FontSize="16" Grid.Row="1"><Run Language="en-gb" Text="Guests"/><LineBreak/><Run Language="en-gb"/><LineBreak/><Run/></TextBlock>
         <Button x:Name="button_bookingInvoice" Content="Invoice" HorizontalAlignment="Left" Margin="660,245,0,0" VerticalAlignment="Top" Width="122" Grid.Row="1" Height="22" Click="button_bookingInvoice_Click"/>
         <Button x:Name="button_amendGuest" Content="Amend" HorizontalAlignment="Left" Margin="978,220,0,0" VerticalAlignment="Top" Width="80" Grid.Row="1" Height="22" Click="button_amendGuest_Click" />
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="823,63,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="342"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="379,63,0,0" VerticalAlignment="Top" Width="417" Grid.RowSpan="2"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="10,63,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="342"/>
         <TextBlock x:Name="textBlock_db_header" HorizontalAlignment="Left" Margin="1212,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Height="20" FontSize="16" Text="Database "/>
         <Button x:Name="button_new_db" Content="Create New Database" HorizontalAlignment="Left" Margin="1184,18.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="231" Height="41" Click="New_db_Click"/>
