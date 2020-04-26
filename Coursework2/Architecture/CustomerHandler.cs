@@ -67,10 +67,5 @@ namespace Coursework2.Architecture
 
             return null;
         }
-
-
-
-       
-
     }
 }

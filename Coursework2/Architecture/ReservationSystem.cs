@@ -41,6 +41,10 @@ namespace Coursework2.Architecture
         {
             return _bookingHandler.GetCustomersBookings(customareName);
         }
+        public List<Guest> ListGuests(int bookingReferenceNumber)
+        {
+            return _guestHandler.ListGuests(bookingReferenceNumber);
+        }
 
         //CUSTOMER METHODS 
         public void AddCustomer(string name, string address)
@@ -58,14 +62,18 @@ namespace Coursework2.Architecture
         public void AddBooking(string customerName, string customerAddress, string arrival, string departure)
         {
             Customer tempCustomer = new Customer(customerName, customerAddress);
-
-            //check if customer is new. 
-            if(_customerHandler.GetCustomerList().Contains(tempCustomer) == false)
+            bool isNew = true;
+            foreach (Customer customer in _customerHandler.GetCustomerList())
+            {
+                if (customer.Equals(tempCustomer))
+                {
+                    isNew = false;
+                }
+            }
+            if (isNew)
             {
                 _customerHandler.AddCustomer(tempCustomer.Name, tempCustomer.Address);
             }
-
-            //Customers values are important in this situation.
             _bookingHandler.AddBooking(tempCustomer, arrival, departure);
         }
         public void AmendBooking(string reference, string arrival, string depart)
@@ -85,17 +93,12 @@ namespace Coursework2.Architecture
         //GUEST METHODS
         public void AddGuest(string name, string passNo, string custAge, string bookingRef)
         {
-           
+            _guestHandler.AddGuest(bookingRef, name, passNo, custAge);
         }
-        public void DeleteGuest(string passNo, string bookingRef)
+        public void DeleteGuest(string passNo)
         {
-         
+            _guestHandler.DeleteGuest(passNo);
         }
-        public void AmendGuest(string bookingRef, string oldPassNo, string newName, string newPassNo, string newAge)
-        {
-          
-        }
-
 
         //EXTRAS METHODS
         public void ExtraBreakfast(string bookRef, string dietReq)
