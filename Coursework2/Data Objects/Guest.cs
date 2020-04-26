@@ -9,25 +9,47 @@ namespace Coursework2
 {
     public class Guest
      {
-        private int bookingReferenceNumber;
+        int bookingReferenceNumber;
         
-        public Guest(string newName, string newPassport, int newAge)
+        public Guest(string name, string passportNumber, int age, int bookingReferenceNumber)
         {
             //Guest must be inicialized with all fields
             //name must not be empty 
-            if (newName != null)
-                name = newName;
-            else throw new ArgumentException("Name must not be empty");
+            if (name != null)
+            {
+                this.name = name;
+            }
+            else
+            {
+                throw new ArgumentException("Name must not be empty");
+            }
             //check if passport is valid
-            if (newPassport.Length < 10 && newPassport.Length > 1)
-                passportNo = newPassport;
+            if (passportNumber.Length < 10 && passportNumber.Length > 1)
+            {
+                this.passportNo = passportNumber;
+            }
             else
+            {
                 throw new ArgumentException("Passport string length max 10 min 0!");
+            }
             //check if age is valid
-            if (newAge < 101 && newAge > 0)
-                age = newAge;
+            if (age < 101 && age > 0)
+            {
+                this.age = age;
+            }
             else
+            {
                 throw new ArgumentException("Age int range 0-101");
+            }
+
+            if (bookingReferenceNumber > 0)
+            {
+                this.bookingReferenceNumber = bookingReferenceNumber;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid booking reference number");
+            }
         }
 
         //stores information about guest who stays in the hotel.
@@ -78,6 +100,5 @@ namespace Coursework2
         {
             get { return bookingReferenceNumber; }
         }
-        
     }
 }

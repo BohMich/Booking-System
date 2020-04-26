@@ -21,7 +21,7 @@ namespace Coursework2.Architecture
             int guestAge = ReservationSystem.RefToInt(age);
             bool guestExists = false;
 
-            Guest newGuest = new Guest(name,passport,guestAge);
+            Guest newGuest = new Guest(name,passport,guestAge,bookingRef);
 
             foreach (Guest guest in guests)
             {
@@ -51,6 +51,19 @@ namespace Coursework2.Architecture
                 }
             }
         }
+        public List<Guest> ListGuests(int bookingReferenceNumber)
+        {
+            List<Guest> temp = new List<Guest>();
 
+            foreach (Guest guest in guests)
+            {
+                if (guest.BookingReferenceNumber == bookingReferenceNumber)
+                {
+                    temp.Add(guest);
+                }
+            }
+
+            return temp;
+        }
     }
 }

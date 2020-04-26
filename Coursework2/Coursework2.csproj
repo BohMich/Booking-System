@@ -102,9 +102,7 @@
     <Compile Include="Architecture\ContainerConfig.cs" />
     <Compile Include="Architecture\CustomerHandler.cs" />
     <Compile Include="Architecture\DataBase.cs" />
-    <Compile Include="Data Objects\ExtraBreakfast.cs" />
-    <Compile Include="Data Objects\ExtraCarHire.cs" />
-    <Compile Include="Data Objects\ExtraEveningMeal.cs" />
+    <Compile Include="Data Objects\BookingExtras.cs" />
     <Compile Include="extras.xaml.cs">
       <DependentUpon>extras.xaml</DependentUpon>
     </Compile>
