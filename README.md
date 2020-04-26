@@ -1,4 +1,4 @@
-Update 26/04/2020
+# Update 26/04/2020
 The system architecture is not completely rewritten. Data classes (customer, booking, guest) no longer hold information regarding their subclasses. Instead data handling objects are created using Autofac, following the principles of inversion of control. 
 
 Most of the fucntions had to be rewritten since there is no need to iterate through customers->booking->guests. 
