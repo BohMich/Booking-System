@@ -10,7 +10,7 @@ namespace Coursework2.Architecture
 {
     public class CustomerHandler : ICustomerHandler
     {
-        public  List<Customer> customers;
+        private  List<Customer> customers;
 
         public CustomerHandler()
         {
@@ -18,9 +18,18 @@ namespace Coursework2.Architecture
         }
         public void AddCustomer(string name, string address)
         {
+            bool customerExists = false;
             Customer newCustomer = new Customer(name, address);
 
-            if (customers.Contains(newCustomer) == false)
+            foreach (Customer customer in customers)
+            {
+                if(customer.Name == name && customer.Address == address)
+                {
+                    customerExists = true;
+                }
+            }
+
+            if (customerExists == false)
             {
                 customers.Add(newCustomer);
             }
@@ -29,7 +38,7 @@ namespace Coursework2.Architecture
                 throw new ArgumentException("Customer exists");
             }
         }
-        public void DeleteCustomer(string name)
+        public void DeleteCustomer(string name, string address)
         {
             Customer temp = getCustomer(name);
             if (temp != null)
@@ -41,10 +50,7 @@ namespace Coursework2.Architecture
                 throw new ArgumentException("Customer can't be deleted: Customer doesn't exist");
             }
         }
-        public void AmmendCustomer(string name, string address)
-        {
-            
-        }
+
         public List<Customer> GetCustomerList()
         {
             return customers;

@@ -8,10 +8,9 @@ namespace Coursework2.Architecture.Interfaces
         void AddCustomer(string name, string address);
         void AddGuest(string name, string passNo, string custAge, string bookingRef);
         void AmendBooking(string reference, string arrival, string depart);
-        void AmendCustomer(string reference, string name, string address);
         void AmendGuest(string bookingRef, string oldPassNo, string newName, string newPassNo, string newAge);
         void DeleteBooking(string bookingRef);
-        void DeleteCustomer(string name);
+        void DeleteCustomer(string name, string address);
         void DeleteGuest(string passNo, string bookingRef);
         void ExtraBreakfast(string bookRef, string dietReq);
         void ExtraCarHire(string bookRef, string startHire, string endHire, string name);

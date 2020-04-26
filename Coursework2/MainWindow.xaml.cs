@@ -35,11 +35,8 @@ namespace Coursework2
                 _db = scope.Resolve<IDataBase>();
                 _system = scope.Resolve<IReservationSystem>();
             }
-
             InitializeComponent();
-
-            Griddata.ItemsSource = _system.ListCustomer();
-            
+            Griddata.ItemsSource = _system.ListCustomer(); 
         }
 
         //Customer Functions
@@ -53,19 +50,19 @@ namespace Coursework2
             {
                 MessageBox.Show(error.Message.ToString());
             }
-            Griddata.Items.Refresh();
+            UpdateGridData();
         }
         private void button_delCust_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                _system.DeleteCustomer(textBox_custfNameset.Text);
+                _system.DeleteCustomer(textBox_custfNameset.Text, textBox_1custaddress.Text);
             }
             catch(ArgumentException error)
             {
                 MessageBox.Show(error.Message.ToString());
             }
-            Griddata.Items.Refresh();
+            UpdateGridData();
         }
 
         //BOOKING BUTTONS
@@ -79,8 +76,7 @@ namespace Coursework2
             {
                 MessageBox.Show(error.Message.ToString());
             }
-            Griddata.Items.Refresh();
-            dataGrid_Booking.Items.Refresh();
+            UpdateGridData();
         }
         private void button_bookingClear_Click(object sender, RoutedEventArgs e)
         {
@@ -95,54 +91,39 @@ namespace Coursework2
             try
             {
                 _system.DeleteBooking(textBox_booking_Reference.Text);
+                UpdateGridData();
             }
             catch (ArgumentException error)
             {
                 MessageBox.Show(error.Message.ToString());
             }
-
-            Griddata.Items.Refresh();
-            dataGrid_Booking.Items.Refresh();
-            dataGrid_Guests.Items.Refresh();
-
+            UpdateGridData();
         }
 
         private void button_BookingLoad_Click(object sender, RoutedEventArgs e)
         {
-            /*Booking tempBooking = _system.GetBooking(textBox_booking_Reference.Text);
+            //get booking from the handler
+            Booking tempBooking = _system.GetBooking(textBox_booking_Reference.Text);
 
+            if (tempBooking != null)   //booking exists
+            { 
+                //get booking
+                textBox_Booking_Arrival.Text = tempBooking.ArrivalDate.ToString();
+                textBox_Booking_Departure.Text = tempBooking.DapartureDate.ToString();
 
-
-            if (textBox_booking_Reference.Text != "")
-            {
-
-                Booking bookTemp = 
-                if (bookTemp != null)
-                {
-                    textBox_Booking_Arrival.Text = bookTemp.ArrivalDate.ToString();
-                    textBox_Booking_Departure.Text = bookTemp.DapartureDate.ToString();
-                }
-                //else MessageBox.Show("Booking doesn't exist");
-                Customer custTemp;
-                foreach (Customer cust in _system.ListCustomer())
-                {
-                    if (cust.ExistsBooking(bookTemp))
-                    {
-                        custTemp = cust;
-                        textBox_booking_CustName.Text = custTemp.Name;
-                        textBox_booking_CustAddress1.Text = custTemp.Address;
-                        return;
-                    }
-
-                }
-                MessageBox.Show("Invalid booking reference number");
+                //get customer who connects to the booking
+                textBox_booking_CustName.Text = tempBooking.GetCustomer.Name;
+                textBox_booking_CustAddress1.Text = tempBooking.GetCustomer.Address;
             }
-            else MessageBox.Show("Please provide Booking Reference Number");*/
+            else
+            {
+                MessageBox.Show("Booking doesn't exist.");
+            }
+            UpdateGridData();
         }
 
         private void Griddata_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-
+        { 
             foreach (var item in e.AddedCells)
             {
                 var col = item.Column as DataGridColumn;
@@ -151,41 +132,34 @@ namespace Coursework2
                 if (fc is TextBlock)
                 {
                     dataGrid_Booking.ItemsSource = _system.ListBookings((fc as TextBlock).Text);
-                    dataGrid_Booking.Items.Refresh();
+                    UpdateGridData();
 
                     break;
                 }
-
             }
-            dataGrid_Booking.Items.Refresh();
 
-
+            UpdateGridData();
         }
 
         private void button_bookingAmend_Click(object sender, RoutedEventArgs e)
-        {
-
+        { 
             _system.AmendBooking(textBox_booking_Reference.Text, textBox_Booking_Arrival.Text, textBox_Booking_Departure.Text);
-            dataGrid_Booking.Items.Refresh();
-            Griddata.Items.Refresh();
-            dataGrid_Guests.Items.Refresh();
+            UpdateGridData();
 
         }
 
         private void button_amendCust_Click(object sender, RoutedEventArgs e)
         {
-           /* data.AmendCustomer(textBox_custRef.Text, textBox_custfNameset.Text, textBox_1custaddress.Text);
-            dataGrid_Booking.Items.Refresh();
-            Griddata.Items.Refresh();*/
+        
         }
 
         private void button_addGuest_Click(object sender, RoutedEventArgs e)
         {
-            /*data.AddGuest(textBox_guestName.Text, textBox_guestPassport.Text,
-                          textBox_guestAge.Text, textBox_guestRef.Text);
+            _system.AddGuest(textBox_guestName.Text, textBox_guestPassport.Text, 
+                            textBox_guestAge.Text, textBox_guestRef.Text);
 
             dataGrid_Guests.Items.Refresh();
-*/
+
         }
 
         private void dataGrid_Booking_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -301,8 +275,7 @@ namespace Coursework2
             {
                 MessageBox.Show("Booking Database successfully deleted");
             }
-
-            Griddata.Items.Refresh();
+            UpdateGridData();
         }
 
         private void Add_Local_db_Click(object sender, RoutedEventArgs e)
@@ -320,14 +293,21 @@ namespace Coursework2
                 Customer temp = _db.LoadData();
                 _system.AddCustomer(temp.Name, temp.Address);
                 MessageBox.Show("Added the data to the database");
-                Griddata.Items.Refresh();
+                UpdateGridData();
             }
             catch
             {
                 MessageBox.Show("Error: Can't Load Customer from external database");
-                Griddata.Items.Refresh();
+                UpdateGridData();
             }
 
+        }
+
+        private void UpdateGridData()
+        {
+            dataGrid_Booking.Items.Refresh();
+            Griddata.Items.Refresh();
+            dataGrid_Guests.Items.Refresh();
         }
     }
 }

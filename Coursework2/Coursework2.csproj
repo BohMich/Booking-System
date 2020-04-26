@@ -95,6 +95,8 @@
     <Compile Include="AmendGuest.xaml.cs">
       <DependentUpon>AmendGuest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Architecture\GuestHandler.cs" />
+    <Compile Include="Architecture\Interfaces\IGuestHandler.cs" />
     <Compile Include="Data Objects\BookingDate.cs" />
     <Compile Include="Architecture\BookingHandler.cs" />
     <Compile Include="Architecture\ContainerConfig.cs" />

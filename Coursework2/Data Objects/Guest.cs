@@ -9,7 +9,7 @@ namespace Coursework2
 {
     public class Guest
      {
-        private Booking booking;
+        private int bookingReferenceNumber;
         
         public Guest(string newName, string newPassport, int newAge)
         {
@@ -74,7 +74,10 @@ namespace Coursework2
                 return age;
             }
         }
-
-       
+        public int BookingReferenceNumber
+        {
+            get { return bookingReferenceNumber; }
+        }
+        
     }
 }

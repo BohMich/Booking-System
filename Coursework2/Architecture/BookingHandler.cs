@@ -48,7 +48,7 @@ namespace Coursework2.Architecture
 
         public void DeleteBooking(string bookingReference)
         {
-            int refNo = RefToInt(bookingReference);
+            int refNo = ReservationSystem.RefToInt(bookingReference);
 
            foreach(Booking booking in bookings)
             {
@@ -59,6 +59,18 @@ namespace Coursework2.Architecture
                 }
             }
             throw new ArgumentException("Booking doesn't exist");
+        }
+        public void DeleteBooking(string customerName, string customerAddress)
+        { 
+            foreach (Booking booking in bookings)
+            {
+                var temp = booking.GetCustomer; //get a local copy of the customer assigned to the booking.
+
+                if (temp.Name == customerName && temp.Address == customerAddress)
+                {
+                    bookings.Remove(booking);
+                }
+            }
         }
 
         public List<Booking> GetCustomersBookings(string customerName)
@@ -79,11 +91,11 @@ namespace Coursework2.Architecture
         }
         public void AmmendBooking()
         {
-            //TODO
+            
         }
         public Booking GetSingleBooking(string bookingReference)
         {
-            int refNo = RefToInt(bookingReference);
+            int refNo = ReservationSystem.RefToInt(bookingReference);
 
             foreach (Booking booking in bookings)
             {
@@ -98,19 +110,6 @@ namespace Coursework2.Architecture
         {
             return bookings;
         }
-        private int RefToInt(string reference)
-        {
-            int refNo;
-            try
-            {
-                refNo = int.Parse(reference);
-            }
-            catch
-            {
-                throw new ArgumentException("Invalid bookning reference number.");
-            }
-
-            return refNo;
-        }
+        
     }
 }

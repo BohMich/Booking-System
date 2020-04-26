@@ -5,8 +5,7 @@ namespace Coursework2.Architecture.Interfaces
     public interface ICustomerHandler
     {
         void AddCustomer(string name, string address);
-        void AmmendCustomer(string name, string address);
-        void DeleteCustomer(string name);
+        void DeleteCustomer(string name, string address);
         List<Customer> GetCustomerList();
     }
 }

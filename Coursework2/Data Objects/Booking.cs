@@ -10,12 +10,11 @@ namespace Coursework2
    public class Booking
     {
         //Customer who made the booking. 
-        private Customer customer; 
+        private Customer customer;
+        private int clientReferenceNumber;  //Reference used only in the booking application, is not passed to the SQL
 
         private DateTime arrivalDate;
         private DateTime departureDate;
-
-        public static int referenceNo;
 
         //Extras for booking.
         private ExtraBreakfast breakfast = null;
@@ -46,12 +45,12 @@ namespace Coursework2
             }
 
             this.customer = customer;
-            referenceNo += 1;
+            clientReferenceNumber += 1;
         }
 
         public int ReferenceNumber
         {
-            get { return referenceNo; }
+            get { return clientReferenceNumber; }
         }
 
         public Customer GetCustomer

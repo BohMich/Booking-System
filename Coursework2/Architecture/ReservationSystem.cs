@@ -24,11 +24,13 @@ namespace Coursework2.Architecture
     {
         ICustomerHandler _customerHandler;
         IBookingHandler _bookingHandler;
+        IGuestHandler _guestHandler;
 
-        public ReservationSystem(ICustomerHandler c, IBookingHandler b)
+        public ReservationSystem(ICustomerHandler c, IBookingHandler b, IGuestHandler g)
         {
             _customerHandler = c;
             _bookingHandler = b;
+            _guestHandler = g;
         }
 
         public List<Customer> ListCustomer()
@@ -45,13 +47,11 @@ namespace Coursework2.Architecture
         {
             _customerHandler.AddCustomer(name, address);
         }
-        public void AmendCustomer(string reference, string name, string address)
-        {
 
-        }
-        public void DeleteCustomer(string name)
+        public void DeleteCustomer(string name, string address)
         {
-            _customerHandler.DeleteCustomer(name);
+            _bookingHandler.DeleteBooking(name, address); //remove bookings attached to the customer.
+            _customerHandler.DeleteCustomer(name, address);
         }
 
         //BOOKING METHODS 
@@ -85,75 +85,15 @@ namespace Coursework2.Architecture
         //GUEST METHODS
         public void AddGuest(string name, string passNo, string custAge, string bookingRef)
         {
-           /* int bookRef;
-            int.TryParse(bookingRef, out bookRef);
-
-            int age;
-            int.TryParse(custAge, out age);
-
-            foreach (Customer cust in customers)
-            {
-                foreach (Booking book in cust.GetBookings())
-                {
-                    if (book.ReferenceNo == bookRef)
-                    {
-
-                        book.AddGuest(name, passNo, age);
-                        return;
-
-                    }
-
-                }
-
-            }
-            MessageBox.Show("Booking number not found, please provide a valid booking number");*/
+           
         }
         public void DeleteGuest(string passNo, string bookingRef)
         {
-         /*   int bookRef;
-            int.TryParse(bookingRef, out bookRef);
-
-            foreach (Customer cust in customers)
-            {
-                foreach (Booking book in cust.GetBookings())
-                {
-                    if (book.ReferenceNo == bookRef)
-                    {
-
-                        book.DeleteGuest(passNo);
-                        return;
-
-                    }
-                }
-            }
-
-            MessageBox.Show("Could not delete guest, invalid information.");*/
+         
         }
         public void AmendGuest(string bookingRef, string oldPassNo, string newName, string newPassNo, string newAge)
         {
-           /* int bookRef;
-            int.TryParse(bookingRef, out bookRef);
-
-            int age;
-            int.TryParse(newAge, out age);
-
-            if (oldPassNo != "" && newName != "" && newPassNo != "" && newAge != "")
-            {
-                foreach (Customer cust in customers)
-                {
-                    foreach (Booking book in cust.GetBookings())
-                    {
-                        if (book.ReferenceNo == bookRef)
-                        {
-                            book.AmendGuest(oldPassNo, newName, newPassNo, age);
-                            return;
-                        }
-                    }
-                }
-            }
-            else MessageBox.Show("Please fill in all fields");
-
-*/
+          
         }
 
 
@@ -241,6 +181,20 @@ namespace Coursework2.Architecture
             }
             return null;*/
             return null;
+        }
+        public static int RefToInt(string reference)
+        {
+            int refNo;
+            try
+            {
+                refNo = int.Parse(reference);
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid bookning reference number.");
+            }
+
+            return refNo;
         }
     }
 }
