@@ -43,27 +43,28 @@ namespace Coursework2.Architecture
         }
         public void DeleteGuest(string passport)
         {
-            foreach(Guest guest in guests)
-            {
-                if(guest.PassportNo == passport)
-                {
-                    guests.Remove(guest);
-                }
-            }
+            guests.RemoveAll(x => x.PassportNo == passport);
         }
-        public List<Guest> ListGuests(int bookingReferenceNumber)
+        public List<Guest> ListGuests(string bookingReferenceNumber)
         {
+            
+            int referenceNumber = ReservationSystem.RefToInt(bookingReferenceNumber);
+            
             List<Guest> temp = new List<Guest>();
 
             foreach (Guest guest in guests)
             {
-                if (guest.BookingReferenceNumber == bookingReferenceNumber)
+                if (guest.BookingReferenceNumber == referenceNumber)
                 {
                     temp.Add(guest);
                 }
             }
 
             return temp;
+        }
+        public List<Guest> ListGuests()
+        {
+            return guests;
         }
     }
 }

@@ -43,6 +43,7 @@ namespace Coursework2.Architecture
             Customer temp = getCustomer(name);
             if (temp != null)
             {
+
                 customers.Remove(temp);
             }
             else

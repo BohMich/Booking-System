@@ -6,6 +6,7 @@ namespace Coursework2.Architecture
     {
         void AddGuest(string bookingReferenceNo, string name, string passport, string age);
         void DeleteGuest(string passport);
-        List<Guest> ListGuests(int bookingReferenceNumber);
+        List<Guest> ListGuests(string bookingReferenceNumber);
+        List<Guest> ListGuests();
     }
 }

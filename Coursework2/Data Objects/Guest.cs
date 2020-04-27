@@ -30,7 +30,7 @@ namespace Coursework2
             }
             else
             {
-                throw new ArgumentException("Passport string length max 10 min 0!");
+                throw new ArgumentException("Passport string length max 10 characters");
             }
             //check if age is valid
             if (age < 101 && age > 0)

@@ -16,8 +16,10 @@ namespace Coursework2.Architecture.Interfaces
         void ExtraEveningMeal(string bookRef, string dietReq);
         Booking GetBooking(string reference);
         List<Booking> ListBookings(string custName);
+        List<Booking> GetBooking();
         List<Customer> ListCustomer();
-        List<int> ShowPrice(string bookRef);
-        List<Guest> ListGuests(int bookingReferenceNumber);
+        List<double> ShowPrice(string bookRef);
+        List<Guest> ListGuests(string bookingReferenceNumber);
+        List<Guest> ListGuests();
     }
 }

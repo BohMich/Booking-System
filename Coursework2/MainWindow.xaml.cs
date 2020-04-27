@@ -36,7 +36,6 @@ namespace Coursework2
                 _system = scope.Resolve<IReservationSystem>();
             }
             InitializeComponent();
-            Griddata.ItemsSource = _system.ListCustomer(); 
         }
 
         //Customer Functions
@@ -44,7 +43,7 @@ namespace Coursework2
         {
             try
             {
-                _system.AddCustomer(textBox_custfNameset.Text, textBox_1custaddress.Text);
+                _system.AddCustomer(textBox_Customer_Name.Text, textBox_Customer_Address.Text);
             }
             catch(ArgumentException error)
             {
@@ -56,7 +55,7 @@ namespace Coursework2
         {
             try
             {
-                _system.DeleteCustomer(textBox_custfNameset.Text, textBox_1custaddress.Text);
+                _system.DeleteCustomer(textBox_Customer_Name.Text, textBox_Customer_Address.Text);
             }
             catch(ArgumentException error)
             {
@@ -71,6 +70,7 @@ namespace Coursework2
             try
             {
                 _system.AddBooking(textBox_booking_CustName.Text, textBox_booking_CustAddress1.Text, textBox_Booking_Arrival.Text, textBox_Booking_Departure.Text);
+                UpdateGridData();
             }
             catch (ArgumentException error)
             {
@@ -103,7 +103,16 @@ namespace Coursework2
         private void button_LoadBooking_Click(object sender, RoutedEventArgs e)
         {
             //get booking from the handler
-            Booking tempBooking = _system.GetBooking(textBox_booking_Reference.Text);
+
+            Booking tempBooking = null; 
+            try
+            {
+                tempBooking = _system.GetBooking(textBox_booking_Reference.Text);
+            }
+            catch (ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+            }
 
             if (tempBooking != null)   //booking exists
             { 
@@ -115,10 +124,6 @@ namespace Coursework2
                 textBox_booking_CustName.Text = tempBooking.GetCustomer.Name;
                 textBox_booking_CustAddress1.Text = tempBooking.GetCustomer.Address;
             }
-            else
-            {
-                MessageBox.Show("Booking doesn't exist.");
-            }
             UpdateGridData();
         }
 
@@ -129,11 +134,20 @@ namespace Coursework2
                 var col = item.Column as DataGridColumn;
                 var fc = col.GetCellContent(item.Item);
 
+                if(fc is TextBlock)
+                {
+                    //populate customer textboxes based on selection
+                    var custList= _system.ListCustomer();
+                    var custInfo = custList.Find((x => x.Name == (fc as TextBlock).Text));
+
+                    textBox_Customer_Name.Text = custInfo.Name;
+                    textBox_Customer_Address.Text = custInfo.Address;
+                }
+
                 if (fc is TextBlock)
                 {
+                    //populate the booking datagrid based on selection
                     dataGrid_Booking.ItemsSource = _system.ListBookings((fc as TextBlock).Text);
-                    UpdateGridData();
-
                     break;
                 }
             }
@@ -160,10 +174,11 @@ namespace Coursework2
             {
                 _system.AddGuest(textBox_guestName.Text, textBox_guestPassport.Text,
                             textBox_guestAge.Text, textBox_guestRef.Text);
+                UpdateGridData();
             }
             catch(ArgumentException error)
             {
-                MessageBox.Show(error.Message.ToString());
+                MessageBox.Show(error.Message);
             }
             UpdateGridData();
         }
@@ -178,7 +193,14 @@ namespace Coursework2
 
                 temp = _system.GetBooking((fc as TextBlock).Text);  //get booking based on row.
 
-                var guests = _system.ListGuests(temp.ReferenceNumber);  //get guest list based on reference number
+                //populate booking textboxes with the selected data from the grid
+                textBox_booking_CustName.Text = temp.GetCustomer.Name;
+                textBox_booking_CustAddress1.Text = temp.GetCustomer.Address;
+                textBox_booking_Reference.Text = temp.ReferenceNumber.ToString();
+                textBox_Booking_Arrival.Text = temp.ArrivalDate.ToString();
+                textBox_Booking_Departure.Text = temp.DapartureDate.ToString();
+                
+                var guests = _system.ListGuests(temp.ReferenceNumber.ToString());  //get guest list based on reference number
 
                 dataGrid_Guests.ItemsSource = guests; //populate the Guests table with the infomation.
                 dataGrid_Guests.Items.Refresh();
@@ -189,13 +211,28 @@ namespace Coursework2
 
         private void button_DeleteGuest_Click(object sender, RoutedEventArgs e)
         {
-            _system.DeleteGuest(textBox_guestPassport.Text);
+            try
+            {
+                _system.DeleteGuest(textBox_guestPassport.Text);
+            }
+            catch(ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+            }
             UpdateGridData();
         }
 
         private void button_Extras_Click(object sender, RoutedEventArgs e)
         {
-            var booking = _system.GetBooking(textBox_booking_Reference.Text);
+            Booking booking = null;
+            try
+            {
+                booking = _system.GetBooking(textBox_booking_Reference.Text);
+            }
+            catch(ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+            }
 
             //check if booking exists
             if (booking != null)
@@ -221,17 +258,24 @@ namespace Coursework2
                     }
                     catch (ArgumentException error)
                     {
-                        MessageBox.Show(error.Message.ToString());
+                        MessageBox.Show(error.Message);
                     }
                 }
                 else MessageBox.Show("No extra option selected.");
             }
-            else MessageBox.Show("Please provide a valid booking reference number.");
         }
 
         private void button_BookingInvoice_Click(object sender, RoutedEventArgs e)
         {
-            var booking = _system.GetBooking(textBox_booking_Reference.Text);
+            Booking booking = null;
+            try
+            {
+                booking = _system.GetBooking(textBox_booking_Reference.Text);
+            }
+            catch (ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+            }
             //check if booking exists
             if (booking != null)
             {
@@ -241,10 +285,6 @@ namespace Coursework2
             else MessageBox.Show("Invalid booking number");
         }
 
-        /// <summary>
-        /// Databse functionality. 
-        /// </summary>
-   
         private void New_Database_Click(object sender, RoutedEventArgs e)
         {
             //Creates the new database.
@@ -288,20 +328,79 @@ namespace Coursework2
                 Customer temp = _db.LoadData();
                 _system.AddCustomer(temp.Name, temp.Address);
                 MessageBox.Show("Added the data to the database");
-                UpdateGridData();
+                UpdateGridAll();
             }
             catch
             {
                 MessageBox.Show("Error: Can't Load Customer from external database");
-                UpdateGridData();
+                UpdateGridAll();
             }
         }
 
         private void UpdateGridData()
         {
+            dataGrid_Customer.Items.Refresh();
+
             dataGrid_Booking.Items.Refresh();
-            Griddata.Items.Refresh();
+
             dataGrid_Guests.Items.Refresh();
+        }
+
+        private void UpdateGridAll()
+        {
+            dataGrid_Customer.ItemsSource = _system.ListCustomer();
+            dataGrid_Booking.ItemsSource = _system.GetBooking();
+            dataGrid_Guests.ItemsSource = _system.ListGuests();
+        }
+        private void AddMockData()
+        {
+            try
+            {
+                _system.AddBooking("Josh Pinklet", "11 Watergate Place", "22/01/2020", "25/01/2020");
+                _system.AddBooking("Alfred Hitchhike", "Bane's Drive", "13/12/2021", "20/12/2021");
+                _system.AddBooking("Hugh Hueston", "Bulding 2 Moonplace", "12/11/2020", "25/11/2020");
+
+                _system.AddCustomer("Kepler Mopler", "13 Funkytown Groove, Iceland");
+                _system.AddGuest("Mario", "ISAME55", "32", "1");
+                _system.AddGuest("Luigi", "AMA499", "33", "3");
+                _system.AddGuest("Peach, Princess", "PIKA23", "46", "3");
+                _system.AddGuest("Testoviron", "KHWA400", "92", "2");
+            }
+            catch(ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+            }
+        }
+        private void button_InjectData_Click(object sender, RoutedEventArgs e)
+        {
+            AddMockData();
+        }
+        private void button_showAllData_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateGridAll();
+        }
+
+        private void dataGrid_Guests_SelectedCellsChanged_1(object sender, SelectedCellsChangedEventArgs e)
+        { 
+            foreach (var item in e.AddedCells)
+            {
+                var col = item.Column as DataGridColumn;
+                var fc = col.GetCellContent(item.Item);
+
+                if(fc is TextBlock)
+                {
+                    var temp = _system.ListGuests().Find((x => x.Name == (fc as TextBlock).Text));
+
+                    //populate guest textboxes with the selected data from the grid
+                    textBox_guestName.Text = temp.Name;
+                    textBox_guestPassport.Text = temp.PassportNo;
+                    textBox_guestAge.Text = temp.Age.ToString();
+                    textBox_guestRef.Text = temp.BookingReferenceNumber.ToString();
+
+                }
+
+                break;
+            }
         }
     }
 }

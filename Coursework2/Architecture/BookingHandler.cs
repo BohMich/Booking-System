@@ -34,7 +34,7 @@ namespace Coursework2.Architecture
                 throw new ArgumentException("Invalid date format");
             }
 
-            Booking newBooking = new Booking(customer, arr, dep);
+            Booking newBooking = new Booking(customer, arr, dep, bookings.Count+1);
             
             if(bookings.Contains(newBooking) == false)
             {
@@ -49,45 +49,19 @@ namespace Coursework2.Architecture
         public void DeleteBooking(string bookingReference)
         {
             int refNo = ReservationSystem.RefToInt(bookingReference);
-
-           foreach(Booking booking in bookings)
-            {
-                if (booking.ReferenceNumber == refNo)
-                {
-                    bookings.Remove(booking);
-                    return;
-                }
-            }
-            throw new ArgumentException("Booking doesn't exist");
+            bookings.RemoveAll(x => x.ReferenceNumber == refNo);
+            
         }
         public void DeleteBooking(string customerName, string customerAddress)
-        { 
-            foreach (Booking booking in bookings)
-            {
-                var temp = booking.GetCustomer; //get a local copy of the customer assigned to the booking.
-
-                if (temp.Name == customerName && temp.Address == customerAddress)
-                {
-                    bookings.Remove(booking);
-                }
-            }
+        {
+            bookings.RemoveAll(x => x.GetCustomer.Name == customerName && x.GetCustomer.Address == customerAddress);
         }
 
         public List<Booking> GetCustomersBookings(string customerName)
         {
             List<Booking> customerBookings = new List<Booking>();
 
-            foreach (Booking booking in bookings)
-            {
-                var tempCustomer = booking.GetCustomer;
-
-                //compare booking's customer 
-                if (tempCustomer.Name == customerName)
-                {
-                    customerBookings.Add(booking);
-                }
-            }
-            return customerBookings;
+            return customerBookings = bookings.FindAll(x => x.GetCustomer.Name == customerName);
         }
         public void AmmendBooking()
         {

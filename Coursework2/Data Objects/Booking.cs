@@ -21,7 +21,7 @@ namespace Coursework2
         List<BookingExtras> extras;
 
        //Constructor, new booking must have arrival and departure dates.
-        public Booking(Customer customer, DateTime arrive, DateTime depart)
+        public Booking(Customer customer, DateTime arrive, DateTime depart, int referenceNumber)
         {
             extras = new List<BookingExtras>();
             //check dates
@@ -45,7 +45,7 @@ namespace Coursework2
             }
 
             this.customer = customer;
-            localReferenceNumber += 1;
+            localReferenceNumber = referenceNumber;
         }
 
         public int ReferenceNumber

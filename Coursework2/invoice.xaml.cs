@@ -23,12 +23,11 @@ namespace Coursework2
         {
             InitializeComponent();
         }
-        public invoice(List<int> totalprices) :this()
+        public invoice(List<double> totalprices) :this()
         {
             //totalprices = { guestsPerNight, extraBF, extraM, extraCH, noOfNights };
             try
             {
-
                 textBox_guestPerNight.Text = "£ " + totalprices[0];
                 textBox_guestTotal.Text = "£ " + totalprices[0] * totalprices[4];
                 textBox_breakfast.Text = "£ " + totalprices[1];

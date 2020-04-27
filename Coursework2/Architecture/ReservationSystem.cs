@@ -41,9 +41,13 @@ namespace Coursework2.Architecture
         {
             return _bookingHandler.GetCustomersBookings(customareName);
         }
-        public List<Guest> ListGuests(int bookingReferenceNumber)
+        public List<Guest> ListGuests(string bookingReferenceNumber)
         {
             return _guestHandler.ListGuests(bookingReferenceNumber);
+        }
+        public List<Guest> ListGuests()
+        {
+            return _guestHandler.ListGuests();
         }
 
         //CUSTOMER METHODS 
@@ -65,7 +69,7 @@ namespace Coursework2.Architecture
             bool isNew = true;
             foreach (Customer customer in _customerHandler.GetCustomerList())
             {
-                if (customer.Equals(tempCustomer))
+                if (customer.Name == tempCustomer.Name)
                 {
                     isNew = false;
                 }
@@ -84,9 +88,14 @@ namespace Coursework2.Architecture
         {
             return _bookingHandler.GetSingleBooking(reference);
         }
+        public List<Booking> GetBooking()
+        {
+            return _bookingHandler.GetBookings();
+        }
         public void DeleteBooking(string bookingReference)
         {
             _bookingHandler.DeleteBooking(bookingReference);
+            _guestHandler.ListGuests().RemoveAll(x => x.BookingReferenceNumber.ToString() == bookingReference);
         }
        
 
@@ -103,87 +112,38 @@ namespace Coursework2.Architecture
         //EXTRAS METHODS
         public void ExtraBreakfast(string bookRef, string dietReq)
         {
-           /* int Ref;
-            int.TryParse(bookRef, out Ref);
-
-            foreach (Customer cust in customers)
-            {
-                foreach (Booking booking in cust.GetBookings())
-                    if (booking.ReferenceNo == Ref)
-                    {
-                        booking.AddBreakfast(dietReq);
-                        return;
-                    }
-
-            }
-            MessageBox.Show("Invalid booking reference");*/
+            _bookingHandler.GetSingleBooking(bookRef).AddBreakfast(dietReq);
         }
         public void ExtraEveningMeal(string bookRef, string dietReq)
         {
-            /*int Ref;
-            int.TryParse(bookRef, out Ref);
-
-            foreach (Customer cust in customers)
-            {
-                foreach (Booking booking in cust.GetBookings())
-                    if (booking.ReferenceNo == Ref)
-                    {
-                        booking.AddEveningMeal(dietReq);
-                        return;
-                    }
-
-            }
-            MessageBox.Show("Invalid booking reference");*/
+            _bookingHandler.GetSingleBooking(bookRef).AddEveningMeal(dietReq);
         }
         public void ExtraCarHire(string bookRef, string startHire, string endHire, string name)
         {
-           /* //convert to appropriate format
-
+            //convert to appropriate format
             try
             {
-
-                int Ref;
-                int.TryParse(bookRef, out Ref);
-
                 DateTime start = DateTime.ParseExact(startHire, "d/M/yyyy", CultureInfo.InvariantCulture);
                 DateTime end = DateTime.ParseExact(endHire, "d/M/yyyy", CultureInfo.InvariantCulture);
 
-                foreach (Customer cust in customers)
-                    foreach (Booking booking in cust.GetBookings())
-                        if (booking.ReferenceNo == Ref)
-                        {
-                            booking.AddCarHire(start, end, name);
-                            return;
-                        }
-
-                MessageBox.Show("Invalid booking reference");
+                _bookingHandler.GetSingleBooking(bookRef).AddCarHire(start, end, name);
             }
             catch
             {
                 MessageBox.Show("Invalid information provided ");
-
-            }*/
-
+            }
         }
 
-        //Other
-        public List<int> ShowPrice(string bookRef)
+        public List<double> ShowPrice(string bookingReference)
         {
-            /*int Ref;
-            int.TryParse(bookRef, out Ref);
+            int Ref;
+            int.TryParse(bookingReference, out Ref);
 
-            foreach (Customer cust in customers)
-            {
-                foreach (Booking book in cust.GetBookings())
-                {
-                    if (book.ReferenceNo == Ref)
-                    {
-                        return book.GetBill();
-                    }
-                }
-            }
-            return null;*/
-            return null;
+            var guests = _guestHandler.ListGuests(bookingReference);
+
+            var bill = _bookingHandler.GetSingleBooking(bookingReference).GetBill(guests);
+
+            return bill;
         }
         public static int RefToInt(string reference)
         {
